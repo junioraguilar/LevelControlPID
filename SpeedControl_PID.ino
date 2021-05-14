@@ -31,7 +31,8 @@ long ultimoDeboucingTempo = 0;
 long deboucingDelay = 10;
 
 
-void setup(){
+void setup()
+{
 pinMode(IN1,OUTPUT);
 pinMode(velocidadeA,OUTPUT);
 
@@ -41,20 +42,24 @@ pinMode(11, INPUT);
 Serial.begin(9600);
 }
  
-void loop(){
+void loop()
+{
   bool estadoBotao1 = digitalRead(2);
   bool estadoBotao2 = digitalRead(12);
   bool estadoBotao3 = digitalRead(11);
 
-  if(estadoBotao1 != ultimoEstado){
+  if(estadoBotao1 != ultimoEstado)
+  {
     ultimoDeboucingTempo = millis();
-    if((millis() - ultimoDeboucingTempo) > deboucingDelay){
+    if((millis() - ultimoDeboucingTempo) > deboucingDelay)
+    {
       if(estadoBotao1 != botaoEstado){
         estadoBotao1 = botaoEstado;
       }
     }
     
-    while(estadoBotao1){
+    while(estadoBotao1)
+    {
       i++;
       break;
     }
@@ -66,39 +71,51 @@ void loop(){
     }
 
     
-   if(i == 0){
-    if(estadoBotao2){
+   if(i == 0)
+   {
+    if(estadoBotao2)
+    {
       kd+= 0.5;
     }
-    if(estadoBotao3){
+    if(estadoBotao3)
+    {
       kd-=0.5;
     }
    }
 
-   if(i == 1){
-    if(estadoBotao2){
+   if(i == 1)
+   {
+    if(estadoBotao2)
+    {
       ki = ki + 0.01;
     }
-    if(estadoBotao3){
+    if(estadoBotao3)
+    {
       ki = ki - 0.01;
     }
    }
 
 
-    if(i == 3){
-    if(estadoBotao2){
+    if(i == 3)
+    {
+    if(estadoBotao2)
+    {
       kp++;
     }
-    if(estadoBotao3){
+    if(estadoBotao3)
+    {
       kp--;
     }
    }
 
-   if(i == 2){
-    if(estadoBotao2){
+   if(i == 2)
+   {
+    if(estadoBotao2)
+    {
       sp++;
     }
-    if(estadoBotao3){
+    if(estadoBotao3)
+    {
       sp--;
     }
    }
@@ -106,22 +123,27 @@ void loop(){
 
 
 
-   if (kd > 10){
+   if (kd > 10)
+   {
     kd = 10;
    }
-   if (kd < 0){
+   if (kd < 0)
+   {
     kd = 0;
    }
 
 
-   if (kd > 10){
+   if (kd > 10)
+   {
     kd = 10;
    }
-   if (kd < 0){
+   if (kd < 0)
+   {
     kd = 0;
    }
 
-   if (ki > 1){
+   if (ki > 1)
+   {
     ki = 1;
    }
    if (ki < 0.001){
@@ -129,22 +151,23 @@ void loop(){
    }
 
 
-   if (sp > 99){
+   if (sp > 99)
+   {
     sp = 99;
    }
-   if (sp < 0){
+   if (sp < 0)
+   {
     sp = 0;
    }
 
 
-   if (kp > 20){
+   if (kp > 20)
+   {
     kp = 20;
    }
    if (kp < 0){
     kp = 0;
    }
-
-   
 
    Serial.print("variavel:  ");
    Serial.print(i);
@@ -161,8 +184,6 @@ void loop(){
    Serial.print("    kp:");
    Serial.println(kp);
    
-
-   
    Serial.print("variavel:  ");
    Serial.print(i);
    
@@ -178,53 +199,27 @@ void loop(){
    Serial.print("    kp:");
    Serial.print(kp);
 
-   
-
-   
-
-
-
-
-
-
-
-
-
-
-  
-    
     int velocidade = calculopid(sp, kp, ki, kd);
     Serial.print("    PID:");
     Serial.print(velocidade);
     Serial.print("   distancia:");
     Serial.println(distancia()); 
-//    Serial.print("    ");
-//    Serial.print(velocidade);
     digitalWrite(IN1,HIGH); 
     analogWrite(velocidadeA, velocidade);
   }
 
 
-
-
-
-
-
-
-
-
-
-
-
-float distancia(){   
+float distancia()
+{   
   float cmMsec, inMsec;
   double microsec = ultrasonic.timing();
   cmMsec = ultrasonic.convert(microsec, Ultrasonic::CM);
   delay(10);
   return cmMsec;
-  
 }
-int calculopid(int sp, int kp, int ki, int kd){  
+
+int calculopid(int sp, int kp, int ki, int kd)
+{  
   float pv = distancia();
   pv = map(pv, 38.0, 7.0, 0.0, 100.0);
   //Serial.print("         variavel:");
